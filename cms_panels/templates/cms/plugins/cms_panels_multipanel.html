@@ -1,0 +1,6 @@
+{% spaceless %}
+{% load cms_tags %}
+<div class="plugin-multipanel">
+    {% for plugin in object.child_plugin_instances %}{% render_plugin plugin %}{% endfor %}
+</div>
+{% endspaceless %}

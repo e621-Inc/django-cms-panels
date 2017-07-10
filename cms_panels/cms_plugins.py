@@ -7,7 +7,46 @@ from cms.plugin_pool import plugin_pool
 from cms.plugin_base import CMSPluginBase
 
 from . import conf
-from .models import Panel, PanelInfo
+from .models import MultiPanel, Panel, PanelInfo
+
+
+class MultiPanelPluginForm(forms.ModelForm):
+
+    class Meta:
+        model = MultiPanel
+        fields = '__all__'
+        widgets = {
+            'css_class': forms.Select(
+                choices=conf.MULTIPANEL_CSS_CLASSES,
+            ),
+            'height': forms.Select(
+                choices=conf.MULTIPANEL_HEIGHTS,
+            ),
+            'width': forms.Select(
+                choices=conf.MULTIPANEL_WIDTHS,
+            )
+        }
+
+
+class MultiPanelPlugin(CMSPluginBase):
+    allow_children = conf.MULTIPANEL_ALLOW_CHILDREN
+    child_classes = conf.MULTIPANEL_PLUGINS
+    fieldsets = conf.MULTIPANEL_FIELDSETS
+    form = MultiPanelPluginForm
+    model = MultiPanel
+    name = _('Panels wrap')
+    module = _('content')
+    render_template = 'cms/plugins/cms_panels_multipanel.html'
+
+    def render(self, context, instance, placeholder):
+        context.update({
+            'object': instance,
+            'placeholder': placeholder,
+        })
+        return context
+
+
+plugin_pool.register_plugin(MultiPanelPlugin)
 
 
 class PanelPluginForm(forms.ModelForm):
@@ -36,7 +75,7 @@ class PanelPlugin(CMSPluginBase):
     model = Panel
     name = _('Panel')
     module = _('content')
-    render_template = 'cms/plugins/panels_panel.html'
+    render_template = 'cms/plugins/cms_panels_panel.html'
 
     def render(self, context, instance, placeholder):
         context.update({
@@ -63,7 +102,7 @@ class PanelInfoPlugin(CMSPluginBase):
     module = _('content')
     name = _('Panel info')
 
-    render_template = 'cms/plugins/panels_panelinfo.html'
+    render_template = 'cms/plugins/cms_panels_panelinfo.html'
     change_form_template = "admin/cms/plugins/panelinfo_change_form.html"
 
     class Media:

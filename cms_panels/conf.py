@@ -15,6 +15,65 @@ DEFAULT_IMAGE_WIDTH = getattr(
     900
 )
 
+
+MULTIPANEL_ALLOW_CHILDREN = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_ALLOW_CHILDREN',
+    True
+)
+MULTIPANEL_PLUGINS = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_PLUGINS',
+    [
+        'PanelPlugin',
+    ]
+)
+MULTIPANEL_FIELDSETS = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_FIELDSETS',
+    [
+        (_('content'), {
+            'classes': ['section'],
+            'fields': [
+                'name',
+            ],
+        }),
+        (_('layout'), {
+            'classes': [
+                'section',
+                'collapse',
+            ],
+            'fields': [
+                'css_class',
+                'width',
+                'height',
+            ],
+        }),
+    ]
+)
+MULTIPANEL_CSS_CLASSES = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_CSS_CLASSES',
+    [
+        ('', _('None')),
+    ]
+)
+MULTIPANEL_HEIGHTS = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_HEIGHTS',
+    [
+        ('', _('auto')),
+    ]
+)
+MULTIPANEL_WIDTHS = getattr(
+    settings,
+    'CMS_PANELS_MULTIPANEL_WIDTHS',
+    [
+        ('', _('auto')),
+    ]
+)
+
+
 PANEL_ALLOW_CHILDREN = getattr(
     settings,
     'CMS_PANELS_PANEL_ALLOW_CHILDREN',

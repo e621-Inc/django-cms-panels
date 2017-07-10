@@ -1,0 +1,8 @@
+{% spaceless %}
+{% load thumbnail cms_tags %}
+<div class="plugin-panel">
+    {% thumbnail object.filer_image 2000x2000 as thumb %}
+    <img class="panel-image" src="{{ thumb.url }}" alt="{{ object.name }}">
+    {% for plugin in object.child_plugin_instances %}{% render_plugin plugin %}{% endfor %}
+</div>
+{% endspaceless %}

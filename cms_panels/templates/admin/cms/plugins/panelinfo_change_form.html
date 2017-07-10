@@ -1,0 +1,15 @@
+{% extends 'admin/cms/page/plugin/change_form.html' %}
+{% load i18n thumbnail %}
+{% block after_field_sets %}
+{% if parent_plugin.filer_image %}
+    {% thumbnail parent_plugin.filer_image 900x900 as thumb %}
+    <div class="panel-wrap" data-field-x="id_coordinate_x" data-field-y="id_coordinate_y">
+        <img class="panel-image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+        <span class="panel-marker" {% if plugin %} style="left: {{ plugin.coordinate_x_percent }}%; top: {{ plugin.coordinate_y_percent }}%"{% endif %}></span>
+    </div>
+{% else %}
+    <div class="panel-admin-error">
+        <p>{% trans 'something went terribly wrong please contact the webmaster' %}</p>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,102 @@
+from __future__ import unicode_literals
+
+from django import forms
+from django.utils.translation import ugettext_lazy as _
+
+from cms.plugin_pool import plugin_pool
+from cms.plugin_base import CMSPluginBase
+
+from . import conf
+from .models import Panel, PanelInfo
+
+
+class PanelPluginForm(forms.ModelForm):
+
+    class Meta:
+        model = Panel
+        fields = '__all__'
+        widgets = {
+            'css_class': forms.Select(
+                choices=conf.PANEL_CSS_CLASSES,
+            ),
+            'height': forms.Select(
+                choices=conf.PANEL_HEIGHTS,
+            ),
+            'width': forms.Select(
+                choices=conf.PANEL_WIDTHS,
+            )
+        }
+
+
+class PanelPlugin(CMSPluginBase):
+    allow_children = conf.PANEL_ALLOW_CHILDREN
+    child_classes = conf.PANEL_PLUGINS
+    fieldsets = conf.PANEL_FIELDSETS
+    form = PanelPluginForm
+    model = Panel
+    name = _('Panel')
+    module = _('content')
+    render_template = 'cms/plugins/panels_panel.html'
+
+    def render(self, context, instance, placeholder):
+        context.update({
+            'object': instance,
+            'placeholder': placeholder,
+        })
+        return context
+
+
+plugin_pool.register_plugin(PanelPlugin)
+
+
+class PanelInfoPluginForm(forms.ModelForm):
+
+    class Meta:
+        model = PanelInfo
+        fields = '__all__'
+
+
+class PanelInfoPlugin(CMSPluginBase):
+    form = PanelInfoPluginForm
+    fieldsets = conf.PANELINFO_FIELDSETS
+    model = PanelInfo
+    module = _('content')
+    name = _('Panel info')
+
+    render_template = 'cms/plugins/panels_panelinfo.html'
+    change_form_template = "admin/cms/plugins/panelinfo_change_form.html"
+
+    class Media:
+        css = {
+            'all': [
+                'admin/cms_panels/css/panelinfo.css',
+            ]
+        }
+        js = [
+            'admin/cms_panels/js/panelinfo.js',
+        ]
+
+    def render(self, context, instance, placeholder):
+        context.update({
+            'object': instance,
+            'placeholder': placeholder,
+        })
+        return context
+
+    def render_change_form(self, request, context, *args, **kwargs):
+        obj = kwargs.get('obj', None)
+        if obj and obj.parent:
+            parent = obj.parent
+        else:
+            parent = self._cms_initial_attributes.get('parent', None)
+        if parent:
+            context['parent_plugin'], pclass = parent.get_plugin_instance()
+        return super(PanelInfoPlugin, self).render_change_form(
+            request,
+            context,
+            *args,
+            **kwargs
+        )
+
+
+plugin_pool.register_plugin(PanelInfoPlugin)

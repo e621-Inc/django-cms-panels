@@ -46,7 +46,7 @@ var PanelInfo = ( function( $ ) {
 
         function drag_start( e ) {
             offset = $marker.offset();
-            
+
             $marker.off();
             $body.on( 'mousemove',  drag_over );
             $body.on( 'mouseup', drag_end );
@@ -55,11 +55,11 @@ var PanelInfo = ( function( $ ) {
 
         function drag_over( e ) {
             po = $panel.offset();
-            mx = e.clientX;
-            my = e.clientY;
+            mx = e.clientX + $doc.scrollLeft();
+            my = e.clientY + $doc.scrollTop();
             pw = $panel.width() + po.left;
             ph = $panel.height() + po.top;
-
+            
             set_position( e );
 
             if( mx < po.left || mx > pw || my < po.top || my > ph ) {

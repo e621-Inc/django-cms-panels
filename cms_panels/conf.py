@@ -155,3 +155,15 @@ PANELINFO_FIELDSETS = getattr(
         }),
     ]
 )
+PANELINFO_ALLOW_CHILDREN = getattr(
+    settings,
+    'CMS_PANELS_PANELINFO_ALLOW_CHILDREN',
+    True
+)
+PANELINFO_PLUGINS = getattr(
+    settings,
+    'CMS_PANELINFO_MULTIPANEL_PLUGINS',
+    [
+        'PageLinkPlugin',
+    ]
+)

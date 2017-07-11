@@ -96,6 +96,8 @@ class PanelInfoPluginForm(forms.ModelForm):
 
 
 class PanelInfoPlugin(CMSPluginBase):
+    allow_children = conf.PANELINFO_ALLOW_CHILDREN
+    child_classes = conf.PANELINFO_PLUGINS
     form = PanelInfoPluginForm
     fieldsets = conf.PANELINFO_FIELDSETS
     model = PanelInfo

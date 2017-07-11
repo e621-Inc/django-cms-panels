@@ -163,7 +163,5 @@ PANELINFO_ALLOW_CHILDREN = getattr(
 PANELINFO_PLUGINS = getattr(
     settings,
     'CMS_PANELINFO_MULTIPANEL_PLUGINS',
-    [
-        'PageLinkPlugin',
-    ]
+    []
 )

@@ -121,6 +121,20 @@ class Panel(CMSPlugin):
         verbose_name=_('Image'),
         related_name="cms_panels_panel_image_set"
     )
+    menu_name = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+        verbose_name=_('Name'),
+    )
+    menu_filer_icon = FilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Icon'),
+        related_name='cms_panels_panelinfo_menu_filer_icon_set',
+    )
     cms_page = models.ForeignKey(
         Page,
         editable=False,
@@ -137,6 +151,12 @@ class Panel(CMSPlugin):
 
     def save(self, **kwargs):
         super(Panel, self).save(**kwargs)
+
+    def get_menu_name(self):
+        return self.menu_name or self.name
+
+    def get_menu_filer_icon(self):
+        return self.menu_filer_icon
 
     @property
     def image_height(self):
@@ -169,20 +189,6 @@ class PanelInfo(CMSPlugin):
         on_delete=models.SET_NULL,
         verbose_name=_('Icon'),
         related_name='cms_panels_panelinfo_filer_icon_set',
-    )
-    menu_name = models.CharField(
-        max_length=150,
-        default='',
-        blank=True,
-        verbose_name=_('Name'),
-    )
-    menu_filer_icon = FilerFileField(
-        null=True,
-        blank=True,
-        default=None,
-        on_delete=models.SET_NULL,
-        verbose_name=_('Icon'),
-        related_name='cms_panels_panelinfo_menu_filer_icon_set',
     )
     coordinate_x = models.PositiveIntegerField(
         blank=True,
@@ -230,12 +236,6 @@ class PanelInfo(CMSPlugin):
                         field_name = f.name
                         break
         return field_name
-
-    def get_menu_name(self):
-        return self.menu_name or self.name
-
-    def get_menu_filer_icon(self):
-        return self.menu_filer_icon or self.filer_icon
 
     @property
     def link(self):

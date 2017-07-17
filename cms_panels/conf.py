@@ -97,6 +97,15 @@ PANEL_FIELDSETS = getattr(
                 'filer_image',
             ],
         }),
+        (_('menu'), {
+            'classes': [
+                'section',
+            ],
+            'fields': [
+                'menu_name',
+                'menu_filer_icon',
+            ],
+        }),
         (_('layout'), {
             'classes': [
                 'section',
@@ -131,6 +140,7 @@ PANEL_WIDTHS = getattr(
         ('', _('auto')),
     ]
 )
+
 
 PANELINFO_FIELDSETS = getattr(
     settings,

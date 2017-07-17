@@ -154,13 +154,6 @@ PANELINFO_FIELDSETS = getattr(
                 'body',
             ],
         }),
-        (_('menu'), {
-            'classes': ['section'],
-            'fields': [
-                'menu_name',
-                'menu_filer_icon',
-            ],
-        }),
         (_('coordinates'), {
             'classes': [
                 'section',

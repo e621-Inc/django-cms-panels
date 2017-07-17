@@ -203,26 +203,44 @@ class PanelInfo(CMSPlugin):
         return '{}'.format(self.name or self.pk or '')
 
     def copy_relations(self, original):
-        pass
-        """
+        link = original.get_link()
+        if link:
+            link.id = None
+            link.panelinfo = self
+            link.save()
+
+    def get_link(self):
+        link = None
+        if conf.PANELINFO_LINK_MODEL:
+            field_name = self.get_link_field_name()
+            if field_name:
+                link = getattr(self, field_name, None)
+        return link
+
+    def get_link_field_name(self):
+        field_name = None
         if conf.PANELINFO_LINK_MODEL:
             for f in self._meta.get_fields():
                 if f.one_to_one:
-                    conf_model = conf.PANELINFO_LINK_MODEL.lower()
                     field_model = '{}.{}'.format(
                         f.related_model._meta.app_label,
                         f.related_model._meta.model_name,
                     )
-                    if field_model == conf_model:
-                        print getattr(self, f.name, 'Howdi')
-            print '---'
-        """
+                    if field_model == conf.PANELINFO_LINK_MODEL.lower():
+                        field_name = f.name
+                        break
+        return field_name
 
     def get_menu_name(self):
         return self.menu_name or self.name
 
     def get_menu_filer_icon(self):
         return self.menu_filer_icon or self.filer_icon
+
+    @property
+    def link(self):
+        if conf.PANELINFO_LINK_MODEL:
+            return self.get_link()
 
     @property
     def coordinate_x_percent(self):

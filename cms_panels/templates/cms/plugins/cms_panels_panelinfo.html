@@ -3,6 +3,9 @@
     <div class="label">{{ object.name }}</div>
     <img class="icon" src="{{ object.filer_icon.url }}" alt="{{ object.name }}">
     <div class="text">{{ object.body|linebreaksbr }}</div>
+    {% if object.link %}
+        <a href="{{ object.link.href }}" title="{{ object.link }}">{{ object.link.name }}</a>
+    {% endif %}
     {% if object.child_plugin_instances %}
         {% for plugin in object.child_plugin_instances %}{% render_plugin plugin %}{% endfor %}
     {% endif %}

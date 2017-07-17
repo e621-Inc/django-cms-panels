@@ -129,7 +129,7 @@ class Panel(CMSPlugin):
     )
 
     class Meta:
-        verbose_name = _('Panel ')
+        verbose_name = _('Panel')
         verbose_name_plural = _('Panels')
 
     def __str__(self):
@@ -155,7 +155,6 @@ class PanelInfo(CMSPlugin):
     name = models.CharField(
         max_length=150,
         default='',
-        blank=True,
         verbose_name=_('Name'),
     )
     body = models.TextField(
@@ -165,9 +164,25 @@ class PanelInfo(CMSPlugin):
     )
     filer_icon = FilerFileField(
         null=True,
+        blank=True,
         default=None,
         on_delete=models.SET_NULL,
         verbose_name=_('Icon'),
+        related_name='cms_panels_panelinfo_filer_icon_set',
+    )
+    menu_name = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+        verbose_name=_('Name'),
+    )
+    menu_filer_icon = FilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Icon'),
+        related_name='cms_panels_panelinfo_menu_filer_icon_set',
     )
     coordinate_x = models.PositiveIntegerField(
         blank=True,
@@ -180,8 +195,39 @@ class PanelInfo(CMSPlugin):
         verbose_name=_('Y coordinat'),
     )
 
+    class Meta:
+        verbose_name = _('Panel Info')
+        verbose_name_plural = _('Panel Infos')
+
+    def __str__(self):
+        return '{}'.format(self.name or self.pk or '')
+
+    def copy_relations(self, original):
+        pass
+        """
+        if conf.PANELINFO_LINK_MODEL:
+            for f in self._meta.get_fields():
+                if f.one_to_one:
+                    conf_model = conf.PANELINFO_LINK_MODEL.lower()
+                    field_model = '{}.{}'.format(
+                        f.related_model._meta.app_label,
+                        f.related_model._meta.model_name,
+                    )
+                    if field_model == conf_model:
+                        print getattr(self, f.name, 'Howdi')
+            print '---'
+        """
+
+    def get_menu_name(self):
+        return self.menu_name or self.name
+
+    def get_menu_filer_icon(self):
+        return self.menu_filer_icon or self.filer_icon
+
+    @property
     def coordinate_x_percent(self):
         return str(float(self.coordinate_x) / 100.0).replace(',', '.')
 
+    @property
     def coordinate_y_percent(self):
         return str(float(self.coordinate_y) / 100.0).replace(',', '.')

@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.apps import apps
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from cms.plugin_pool import plugin_pool
@@ -88,11 +90,24 @@ class PanelPlugin(CMSPluginBase):
 plugin_pool.register_plugin(PanelPlugin)
 
 
+if conf.PANELINFO_LINK_MODEL:
+    class PanelInfoLinkInline(admin.StackedInline):
+        extra = 1
+        max_num = 1
+        model = apps.get_model(conf.PANELINFO_LINK_MODEL)
+        fields = conf.PANELINFO_LINK_FIELDS
+
+
 class PanelInfoPluginForm(forms.ModelForm):
 
     class Meta:
         model = PanelInfo
         fields = '__all__'
+        widgets = {
+            'body': forms.Textarea(
+                attrs={'rows': 5},
+            ),
+        }
 
 
 class PanelInfoPlugin(CMSPluginBase):
@@ -103,6 +118,10 @@ class PanelInfoPlugin(CMSPluginBase):
     model = PanelInfo
     module = _('content')
     name = _('Panel info')
+    if conf.PANELINFO_LINK_MODEL:
+        inlines = [
+            PanelInfoLinkInline
+        ]
 
     render_template = 'cms/plugins/cms_panels_panelinfo.html'
     change_form_template = "admin/cms/plugins/panelinfo_change_form.html"

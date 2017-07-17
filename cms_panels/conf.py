@@ -144,6 +144,13 @@ PANELINFO_FIELDSETS = getattr(
                 'body',
             ],
         }),
+        (_('menu'), {
+            'classes': ['section'],
+            'fields': [
+                'menu_name',
+                'menu_filer_icon',
+            ],
+        }),
         (_('coordinates'), {
             'classes': [
                 'section',
@@ -162,6 +169,16 @@ PANELINFO_ALLOW_CHILDREN = getattr(
 )
 PANELINFO_PLUGINS = getattr(
     settings,
-    'CMS_PANELINFO_MULTIPANEL_PLUGINS',
+    'CMS_PANELS_PANELINFO_PLUGINS',
+    []
+)
+PANELINFO_LINK_MODEL = getattr(
+    settings,
+    'CMS_PANELS_PANELINFO_LINK_MODEL',
+    None
+)
+PANELINFO_LINK_FIELDS = getattr(
+    settings,
+    'CMS_PANELS_PANELINFO_LINK_FIELDS',
     []
 )

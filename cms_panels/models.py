@@ -249,3 +249,17 @@ class PanelInfo(CMSPlugin):
     @property
     def coordinate_y_percent(self):
         return str(float(self.coordinate_y) / 100.0).replace(',', '.')
+
+
+class PanelInfoLinkMixin(models.Model):
+
+    panelinfo = models.OneToOneField(
+        PanelInfo,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name=_('Panel Info')
+    )
+
+    class Meta:
+        abstract = True

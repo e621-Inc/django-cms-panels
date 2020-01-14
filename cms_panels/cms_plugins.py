@@ -118,6 +118,7 @@ class PanelInfoPlugin(CMSPluginBase):
     model = PanelInfo
     module = _('content')
     name = _('Panel info')
+    inlines = []
     if conf.PANELINFO_LINK_MODEL:
         inlines = [
             PanelInfoLinkInline

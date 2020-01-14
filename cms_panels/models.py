@@ -14,6 +14,7 @@ from . import conf
 
 @python_2_unicode_compatible
 class MultiPanel(CMSPlugin):
+
     css_class = models.CharField(
         max_length=200,
         blank=True,
@@ -57,6 +58,7 @@ class MultiPanel(CMSPlugin):
         Page,
         editable=False,
         null=True,
+        on_delete=models.SET_NULL,
         related_name="cms_panels_multipanel_set"
     )
 
@@ -139,6 +141,7 @@ class Panel(CMSPlugin):
         Page,
         editable=False,
         null=True,
+        on_delete=models.SET_NULL,
         related_name="cms_panels_panel_set"
     )
 

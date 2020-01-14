@@ -28,7 +28,7 @@ var PanelInfo = ( function( $ ) {
 
     var $doc = $( document );
 
-    $doc.on( 'ready', ready );
+    $doc.ready( ready );
 
     function ready() {
         $body = $( 'body', $doc );
@@ -59,7 +59,7 @@ var PanelInfo = ( function( $ ) {
             my = e.clientY + $doc.scrollTop();
             pw = $panel.width() + po.left;
             ph = $panel.height() + po.top;
-            
+
             set_position( e );
 
             if( mx < po.left || mx > pw || my < po.top || my > ph ) {

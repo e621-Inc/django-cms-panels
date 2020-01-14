@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # CMS
     'cms',
+    'djangocms_admin_style',
     'easy_thumbnails',
     'filer',
     'menus',

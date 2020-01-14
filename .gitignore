@@ -3,6 +3,8 @@
 *.pyc
 *.egg-info
 *.sqlite
+*.sqlite2
+*.sqlite3
 *.coverage
 *~
 .DS_Store

@@ -9,6 +9,7 @@
 .tmp*
 local_settings.py
 build
+media/
 docs/_build
 dist
 htmlcov

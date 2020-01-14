@@ -134,6 +134,8 @@ class PanelInfoPlugin(CMSPluginBase):
             ]
         }
         js = [
+            'admin/js/vendor/jquery/jquery.js',
+            'admin/js/jquery.init.js',
             'admin/cms_panels/js/panelinfo.js',
         ]
 

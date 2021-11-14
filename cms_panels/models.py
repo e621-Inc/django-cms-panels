@@ -1,7 +1,4 @@
-from __future__ import unicode_literals
-
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,7 +9,6 @@ from filer.fields.file import FilerFileField
 from . import conf
 
 
-@python_2_unicode_compatible
 class MultiPanel(CMSPlugin):
 
     css_class = models.CharField(
@@ -75,7 +71,6 @@ class MultiPanel(CMSPlugin):
         super(MultiPanel, self).save(**kwargs)
 
 
-@python_2_unicode_compatible
 class Panel(CMSPlugin):
     css_class = models.CharField(
         max_length=200,
